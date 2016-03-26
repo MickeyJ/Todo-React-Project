@@ -1,5 +1,6 @@
 import axios from 'axios'
-var API = 'http://localhost:3000/api/todos';
+import path from 'path'
+var API = path.resolve(window.location.pathname,'api/todos');
 
 const todoApi = {
 
