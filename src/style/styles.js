@@ -10,6 +10,6 @@ export const footerStyle = {
 
 export function isDoneStyle(bool){
   return bool
-    ? {background: 'limegreen'}
-    : {background: 'red'}
+    ? {background: 'limegreen', outline: 'none'}
+    : {background: 'white', outline: 'none', border: '1px solid #ccc'}
 }

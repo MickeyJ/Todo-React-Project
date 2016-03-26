@@ -1,5 +1,6 @@
 import React from 'react'
 import { footerStyle } from '../../style/styles'
+
 export default props =>{
   return(
     <h5 style={footerStyle}>

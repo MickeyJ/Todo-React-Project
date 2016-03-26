@@ -4,24 +4,25 @@ export default class TodoForm extends Component{
   getRef(ref){
     this.todo = ref;
   }
-  handleSubmit(){
+  submitTodo(){
     if(!this.todo.value) return;
     this.props.handleAddTodo(this.todo.value)
   }
   render(){
     return(
-      <div className="col-sm-10" style={{marginBottom: 50}}>
+      <div style={{marginBottom: 50}}>
         <div className="form-inline" >
           <input
             className="form-control"
+            style={{width: 300}}
             type="text"
             placeholder="Todo Name"
             ref={(ref) => this.getRef(ref)}
           />
           <button
-            className="btn btn-success"
+            className="btn btn-info"
             type="button"
-            onClick={() => this.handleSubmit()}>
+            onClick={() => this.submitTodo()}>
             Add
           </button>
         </div>

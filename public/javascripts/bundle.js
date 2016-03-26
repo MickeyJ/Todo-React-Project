@@ -60,7 +60,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_reactDom2.default.render(_react2.default.createElement(_Layout2.default, { title: 'React Todo App' }), document.getElementById('main'));
+	_reactDom2.default.render(_react2.default.createElement(_Layout2.default, { title: 'React Todo App' }), document.getElementById('todo-app'));
 
 /***/ },
 /* 1 */
@@ -19681,11 +19681,11 @@
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _Content = __webpack_require__(183);
+	var _Todos = __webpack_require__(162);
 
-	var _Content2 = _interopRequireDefault(_Content);
+	var _Todos2 = _interopRequireDefault(_Todos);
 
-	var _Footer = __webpack_require__(180);
+	var _Footer = __webpack_require__(183);
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
@@ -19696,7 +19696,7 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_Header2.default, { title: props.title }),
-	    _react2.default.createElement(_Content2.default, null),
+	    _react2.default.createElement(_Todos2.default, null),
 	    _react2.default.createElement(_Footer2.default, { title: props.title })
 	  );
 	};
@@ -19715,7 +19715,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(184);
+	var _styles = __webpack_require__(161);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19728,7 +19728,29 @@
 	};
 
 /***/ },
-/* 161 */,
+/* 161 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.isDoneStyle = isDoneStyle;
+	var headerStyle = exports.headerStyle = {
+	  borderBottom: '1px solid #ccc'
+	};
+
+	var footerStyle = exports.footerStyle = {
+	  padding: '10px 0',
+	  borderTop: '1px solid #ccc'
+	};
+
+	function isDoneStyle(bool) {
+	  return bool ? { background: 'limegreen', outline: 'none' } : { background: 'white', outline: 'none', border: '1px solid #ccc' };
+	}
+
+/***/ },
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -19738,53 +19760,196 @@
 	  value: true
 	});
 
-	var _axios = __webpack_require__(163);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _axios2 = _interopRequireDefault(_axios);
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _todoAPI = __webpack_require__(163);
+
+	var _todoAPI2 = _interopRequireDefault(_todoAPI);
+
+	var _TodoList = __webpack_require__(181);
+
+	var _TodoList2 = _interopRequireDefault(_TodoList);
+
+	var _TodoForm = __webpack_require__(182);
+
+	var _TodoForm2 = _interopRequireDefault(_TodoForm);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var API = 'http://localhost:3000/api';
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var todoApi = {
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  getTodos: function getTodos() {
-	    return _axios2.default.get(API + '/todos').then(function (response) {
-	      return response;
-	    }).catch(function (response) {});
-	  },
-	  addTodo: function addTodo(todo) {
-	    return _axios2.default.post(API + '/add/' + todo);
-	  },
-	  completeTodo: function completeTodo(todo) {
-	    return _axios2.default.post(API + ('/done/' + todo.id + '/' + !todo.completed));
-	  },
-	  deleteTodo: function deleteTodo(id) {
-	    return _axios2.default.post(API + '/delete/' + id);
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Todos = function (_Component) {
+	  _inherits(Todos, _Component);
+
+	  function Todos() {
+	    _classCallCheck(this, Todos);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Todos).call(this));
+
+	    _this.state = { todos: [] };
+	    return _this;
 	  }
-	};
-	exports.default = todoApi;
+
+	  _createClass(Todos, [{
+	    key: 'initState',
+	    value: function initState() {
+	      var _this2 = this;
+
+	      _todoAPI2.default.getTodos().then(function (todos) {
+	        _this2.setState({
+	          todos: todos.data
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'updateState',
+	    value: function updateState(callback) {
+	      callback;
+	      this.initState();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.updateState();
+	    }
+	  }, {
+	    key: 'handleAddTodo',
+	    value: function handleAddTodo(todo) {
+	      this.updateState(_todoAPI2.default.addTodo(todo));
+	    }
+	  }, {
+	    key: 'handleDeleteTodo',
+	    value: function handleDeleteTodo(id) {
+	      this.updateState(_todoAPI2.default.deleteTodo(id));
+	    }
+	  }, {
+	    key: 'handleCompleteTodo',
+	    value: function handleCompleteTodo(todo) {
+	      this.updateState(_todoAPI2.default.completeTodo(todo));
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'jumbotron' },
+	        _react2.default.createElement(_TodoForm2.default, { handleAddTodo: function handleAddTodo(todo) {
+	            return _this3.handleAddTodo(todo);
+	          } }),
+	        _react2.default.createElement(
+	          'table',
+	          { className: 'table table-hover' },
+	          _react2.default.createElement(
+	            'thead',
+	            null,
+	            _react2.default.createElement(
+	              'tr',
+	              null,
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                ' '
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Things Todo'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Completed'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Delete'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(_TodoList2.default, {
+	            todos: this.state.todos,
+	            handleDelete: this.handleDeleteTodo.bind(this),
+	            handleComplete: this.handleCompleteTodo.bind(this)
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Todos;
+	}(_react.Component);
+
+	exports.default = Todos;
 
 /***/ },
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164);
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _axios = __webpack_require__(164);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var API = 'http://localhost:3000/api/todos';
+
+	var todoApi = {
+
+	  getTodos: function getTodos() {
+	    return _axios2.default.get(API).then(function (response) {
+	      return response;
+	    }).catch(function (response) {});
+	  },
+	  addTodo: function addTodo(todo) {
+	    return _axios2.default.post(API + ('/' + todo));
+	  },
+	  completeTodo: function completeTodo(todo) {
+	    return _axios2.default.put(API + ('/' + todo.id + '/' + !todo.completed));
+	  },
+	  deleteTodo: function deleteTodo(id) {
+	    return _axios2.default.delete(API + ('/' + id));
+	  }
+	};
+
+	exports.default = todoApi;
 
 /***/ },
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(165);
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	var defaults = __webpack_require__(165);
-	var utils = __webpack_require__(166);
-	var dispatchRequest = __webpack_require__(167);
-	var InterceptorManager = __webpack_require__(175);
-	var isAbsoluteURL = __webpack_require__(176);
-	var combineURLs = __webpack_require__(177);
-	var bind = __webpack_require__(178);
-	var transformData = __webpack_require__(171);
+	var defaults = __webpack_require__(166);
+	var utils = __webpack_require__(167);
+	var dispatchRequest = __webpack_require__(168);
+	var InterceptorManager = __webpack_require__(176);
+	var isAbsoluteURL = __webpack_require__(177);
+	var combineURLs = __webpack_require__(178);
+	var bind = __webpack_require__(179);
+	var transformData = __webpack_require__(172);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -19867,7 +20032,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(179);
+	axios.spread = __webpack_require__(180);
 
 	// Expose interceptors
 	axios.interceptors = defaultInstance.interceptors;
@@ -19898,12 +20063,12 @@
 
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -19967,7 +20132,7 @@
 
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20217,7 +20382,7 @@
 
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20239,10 +20404,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(168);
+	        adapter = __webpack_require__(169);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(168);
+	        adapter = __webpack_require__(169);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -20258,17 +20423,17 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
-	var buildURL = __webpack_require__(169);
-	var parseHeaders = __webpack_require__(170);
-	var transformData = __webpack_require__(171);
-	var isURLSameOrigin = __webpack_require__(172);
-	var btoa = window.btoa || __webpack_require__(173);
+	var utils = __webpack_require__(167);
+	var buildURL = __webpack_require__(170);
+	var parseHeaders = __webpack_require__(171);
+	var transformData = __webpack_require__(172);
+	var isURLSameOrigin = __webpack_require__(173);
+	var btoa = window.btoa || __webpack_require__(174);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -20343,7 +20508,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(174);
+	    var cookies = __webpack_require__(175);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -20394,12 +20559,12 @@
 
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -20467,12 +20632,12 @@
 
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	/**
 	 * Parse headers into an object
@@ -20510,12 +20675,12 @@
 
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	/**
 	 * Transform the data for a request or a response
@@ -20536,12 +20701,12 @@
 
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -20610,7 +20775,7 @@
 
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20652,12 +20817,12 @@
 
 
 /***/ },
-/* 174 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -20711,12 +20876,12 @@
 
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(166);
+	var utils = __webpack_require__(167);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -20769,7 +20934,7 @@
 
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20789,7 +20954,7 @@
 
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20807,7 +20972,7 @@
 
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20824,7 +20989,7 @@
 
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20857,33 +21022,6 @@
 
 
 /***/ },
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _styles = __webpack_require__(184);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function (props) {
-	  return _react2.default.createElement(
-	    'h5',
-	    { style: _styles.footerStyle },
-	    '© 2015 ',
-	    props.title
-	  );
-	};
-
-/***/ },
 /* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20897,7 +21035,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(184);
+	var _styles = __webpack_require__(161);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20988,8 +21126,8 @@
 	      this.todo = ref;
 	    }
 	  }, {
-	    key: "handleSubmit",
-	    value: function handleSubmit() {
+	    key: "submitTodo",
+	    value: function submitTodo() {
 	      if (!this.todo.value) return;
 	      this.props.handleAddTodo(this.todo.value);
 	    }
@@ -21000,12 +21138,13 @@
 
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "col-sm-10", style: { marginBottom: 50 } },
+	        { style: { marginBottom: 50 } },
 	        _react2.default.createElement(
 	          "div",
 	          { className: "form-inline" },
 	          _react2.default.createElement("input", {
 	            className: "form-control",
+	            style: { width: 300 },
 	            type: "text",
 	            placeholder: "Todo Name",
 	            ref: function ref(_ref) {
@@ -21015,10 +21154,10 @@
 	          _react2.default.createElement(
 	            "button",
 	            {
-	              className: "btn btn-success",
+	              className: "btn btn-info",
 	              type: "button",
 	              onClick: function onClick() {
-	                return _this2.handleSubmit();
+	                return _this2.submitTodo();
 	              } },
 	            "Add"
 	          )
@@ -21042,160 +21181,22 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _todoAPI = __webpack_require__(162);
-
-	var _todoAPI2 = _interopRequireDefault(_todoAPI);
-
-	var _TodoList = __webpack_require__(181);
-
-	var _TodoList2 = _interopRequireDefault(_TodoList);
-
-	var _TodoForm = __webpack_require__(182);
-
-	var _TodoForm2 = _interopRequireDefault(_TodoForm);
+	var _styles = __webpack_require__(161);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Content = function (_Component) {
-	  _inherits(Content, _Component);
-
-	  function Content() {
-	    _classCallCheck(this, Content);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Content).call(this));
-
-	    _this.state = { todos: [] };
-	    return _this;
-	  }
-
-	  _createClass(Content, [{
-	    key: 'getState',
-	    value: function getState() {
-	      var _this2 = this;
-
-	      _todoAPI2.default.getTodos().then(function (todos) {
-	        _this2.setState({
-	          todos: todos.data
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'resetState',
-	    value: function resetState(callback) {
-	      callback;
-	      this.getState();
-	    }
-	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.getState();
-	    }
-	  }, {
-	    key: 'handleAdd',
-	    value: function handleAdd(todo) {
-	      this.resetState(_todoAPI2.default.addTodo(todo));
-	    }
-	  }, {
-	    key: 'handleDelete',
-	    value: function handleDelete(id) {
-	      this.resetState(_todoAPI2.default.deleteTodo(id));
-	    }
-	  }, {
-	    key: 'handleComplete',
-	    value: function handleComplete(todo) {
-	      this.resetState(_todoAPI2.default.completeTodo(todo));
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this3 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'jumbotron' },
-	        _react2.default.createElement(_TodoForm2.default, { handleAddTodo: function handleAddTodo(todo) {
-	            return _this3.handleAdd(todo);
-	          } }),
-	        _react2.default.createElement(
-	          'table',
-	          { className: 'table table-hover' },
-	          _react2.default.createElement(
-	            'thead',
-	            null,
-	            _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                ' '
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Things Todo'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Complete'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                'Delete'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(_TodoList2.default, {
-	            todos: this.state.todos,
-	            handleDelete: this.handleDelete.bind(this),
-	            handleComplete: this.handleComplete.bind(this)
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Content;
-	}(_react.Component);
-
-	exports.default = Content;
-
-/***/ },
-/* 184 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.isDoneStyle = isDoneStyle;
-	var headerStyle = exports.headerStyle = {
-	  borderBottom: '1px solid #ccc'
+	exports.default = function (props) {
+	  return _react2.default.createElement(
+	    'h5',
+	    { style: _styles.footerStyle },
+	    '© 2015 ',
+	    props.title
+	  );
 	};
-
-	var footerStyle = exports.footerStyle = {
-	  padding: '10px 0',
-	  borderTop: '1px solid #ccc'
-	};
-
-	function isDoneStyle(bool) {
-	  return bool ? { background: 'limegreen' } : { background: 'red' };
-	}
 
 /***/ }
 /******/ ]);

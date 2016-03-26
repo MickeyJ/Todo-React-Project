@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var knex = require('knex')(require('../knexfile')['production']);
 
-router.get('/todos', function(req, res, next){
-  knex.select().table('todos')
+router.get('/todos', (req, res, next) =>{
+  knex('todos')
     .orderBy('id')
     .then(rows =>{
       res.json(rows);
@@ -13,31 +13,31 @@ router.get('/todos', function(req, res, next){
     });
 });
 
-router.post('/add/:name', (req, res, next) =>{
+router.post('/todos/:name', (req, res, next) =>{
   knex('todos')
     .insert({
       name: req.params.name,
       completed: false
     })
-    .then(res => {})
+    .then(response => {})
     .catch(err =>{ next(new Error(err)) });
-      res.redirect('/')
+      res.end()
 });
 
-router.post('/done/:id/:is_done', (req, res, next) =>{
-  knex.table('todos')
+router.put('/todos/:id/:is_done', (req, res, next) =>{
+  knex('todos')
     .where({id: req.params.id})
     .update({ completed: req.params.is_done })
     .then(response =>{});
-      res.redirect('/')
+      res.end()
 });
 
-router.post('/delete/:id', (req, res, next) =>{
+router.delete('/todos/:id', (req, res, next) =>{
   knex('todos')
     .where('id', req.params.id)
     .del()
-    .then(res => {});
-      res.redirect('/')
+    .then(response => {});
+      res.end()
 });
 
 module.exports = router;
