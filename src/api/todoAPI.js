@@ -4,7 +4,7 @@ var API = path.resolve(window.location.pathname,'api/todos');
 
 const todoApi = {
 
-  getTodos: () =>(
+  getTodos: () => (
     axios.get(API)
       .then(response => response)
       .catch(response =>{})

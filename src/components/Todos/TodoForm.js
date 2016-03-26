@@ -6,7 +6,8 @@ export default class TodoForm extends Component{
   }
   submitTodo(){
     if(!this.todo.value) return;
-    this.props.handleAddTodo(this.todo.value)
+    this.props.handleAddTodo(this.todo.value);
+    this.todo.value = ''
   }
   render(){
     return(
