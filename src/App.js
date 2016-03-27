@@ -5,31 +5,22 @@ import configureStore from './util/Store'
 import Layout from './components/Layout'
 import todoApi from './api/todoAPI'
 
-//let initialState = {
-//
-//};
-//
-//todoApi.getTodos().then(todos => {
-//
-//  initialState.todos = todos.data
-//
-//});
-
-let initialState = {
-  todos: [
-    {
-      text: 'dished',
-      completed: false,
-      id: 1
-    }
-  ]
+const initialState = {
+  todos: []
 };
+
+todoApi.getTodos().then(todos => {
+  todos.data.map(todo => {
+    initialState.todos.push(todo)
+  });
+});
+
 
 let store = configureStore(initialState);
 
 render(
   <Provider store={store}>
-    <Layout />
+    <Layout title={'React Todo App'}/>
   </Provider>,
   document.getElementById('todo-app')
 );

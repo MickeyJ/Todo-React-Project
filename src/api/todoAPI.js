@@ -3,7 +3,6 @@ import path from 'path'
 var API = path.resolve(window.location.pathname,'api/todos');
 
 const todoApi = {
-
   getTodos: () => (
     axios.get(API)
       .then(response => response)
@@ -19,7 +18,6 @@ const todoApi = {
     axios.delete(API +`/${id}`)
   )
 };
-
 export default todoApi
 
 

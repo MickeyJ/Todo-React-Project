@@ -4,9 +4,12 @@ import TodoList from './TodoList'
 import TodoForm from './TodoForm'
 
 export default class Todos extends Component {
-  constructor() {
-    super();
-    this.state = { todos: [] }
+  constructor(props){
+    super(props);
+    this.state = {
+      todos: []
+    };
+    console.dir(props.todos);
   }
   initState(){
     todoApi.getTodos().then(todos => {
@@ -15,21 +18,20 @@ export default class Todos extends Component {
       })
     });
   }
-  updateState(callback){
-    callback;
+  componentDidMount(){
     this.initState()
   }
-  componentDidMount(){
-    this.updateState()
-  }
   handleAddTodo(todo){
-    this.updateState(todoApi.addTodo(todo));
+    this.props.actions.addTodo(todo);
+    this.initState()
   }
   handleDeleteTodo(id){
-    this.updateState(todoApi.deleteTodo(id))
+    this.props.actions.deleteTodo(id);
+    this.initState()
   }
   handleCompleteTodo(todo){
-    this.updateState(todoApi.completeTodo(todo))
+    this.props.actions.completeTodo(todo);
+    this.initState()
   }
   render(){
     return (
