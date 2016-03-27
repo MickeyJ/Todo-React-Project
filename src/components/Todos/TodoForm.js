@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
+
 export default class TodoForm extends Component{
   getRef(ref){
     this.todo = ref;
   }
-  submitTodo(){
+  submitTodo(e){
     if(!this.todo.value) return;
     this.props.handleAddTodo(this.todo.value);
     this.todo.value = ''

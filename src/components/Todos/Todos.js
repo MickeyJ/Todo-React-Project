@@ -38,7 +38,7 @@ export default class Todos extends Component {
         <table className="table table-hover">
           <thead>
           <tr>
-            <th> </th>
+            <th>Edit</th>
             <th>Things Todo</th>
             <th>Completed</th>
             <th>Delete</th>

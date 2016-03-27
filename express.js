@@ -4,7 +4,7 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var home = require('./routes/home');
-var dbRouter = require('./routes/dbRouter');
+var todoRoute = require('./routes/todo-router');
 var app = express();
 
 app.use(logger('dev'));
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'/public')));
 app.use('/', home);
-app.use('/api', dbRouter);
+app.use('/api', todoRoute);
 
 app.use((err, req, res, next) =>{
   res.status(err.status || 500);

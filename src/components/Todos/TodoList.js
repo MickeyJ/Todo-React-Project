@@ -1,12 +1,17 @@
 import React from 'react'
 import { isDoneStyle } from '../../style/styles'
 
+
+
+
 const TodoList = state =>{
   return(
     <tbody>
       {state.todos.map((todo, idx) => (
         <tr completed={todo.completed} key={todo.id}>
-          <td>{idx}</td>
+          <td>
+            {idx}
+          </td>
           <td style={{fontSize: '20px'}}>
             {todo.name}
           </td>
