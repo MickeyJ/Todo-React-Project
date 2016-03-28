@@ -26,6 +26,7 @@ export default class Todos extends Component {
     this.initState()
   }
   handleDeleteTodo(id){
+    
     this.props.actions.deleteTodo(id);
     this.initState()
   }
@@ -40,7 +41,7 @@ export default class Todos extends Component {
         <table className="table table-hover">
           <thead>
           <tr>
-            <th>Edit</th>
+            <th> </th>
             <th>Things Todo</th>
             <th>Completed</th>
             <th>Delete</th>

@@ -28,7 +28,7 @@ router.put('/todos/:id/:is_done', (req, res, next) =>{
   knex('todos')
     .where({id: req.params.id})
     .update({ completed: req.params.is_done })
-    .then(response =>{})
+    .then(response => {})
     .catch(err =>{ next(new Error(err)) });
       res.end()
 });

@@ -13,3 +13,5 @@ export function isDoneStyle(bool){
     ? {background: 'limegreen', outline: 'none'}
     : {background: 'white', outline: 'none', border: '1px solid #ccc'}
 }
+
+

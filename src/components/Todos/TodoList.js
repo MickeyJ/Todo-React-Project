@@ -5,10 +5,8 @@ const TodoList = props =>{
   return(
     <tbody>
     {props.todos.map((todo, idx) => (
-      <tr completed={todo.completed} key={todo.id}>
-        <td>
-          {idx}
-        </td>
+      <tr key={todo.id}>
+        <td>{idx}</td>
         <td style={{fontSize: '20px'}}>
           {todo.name}
         </td>

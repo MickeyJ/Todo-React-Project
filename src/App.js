@@ -9,18 +9,17 @@ const initialState = {
   todos: []
 };
 
-todoApi.getTodos().then(todos => {
-  todos.data.map(todo => {
-    initialState.todos.push(todo)
-  });
-});
-
+//todoApi.getTodos().then(todos => {
+//  todos.data.map(todo => {
+//    initialState.todos.push(todo)
+//  });
+//});
 
 let store = configureStore(initialState);
 
 render(
   <Provider store={store}>
-    <Layout title={'React Todo App'}/>
+    <Layout title={'Todo App'}/>
   </Provider>,
   document.getElementById('todo-app')
 );

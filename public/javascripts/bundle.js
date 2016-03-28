@@ -72,18 +72,18 @@
 	  todos: []
 	};
 
-	_todoAPI2.default.getTodos().then(function (todos) {
-	  todos.data.map(function (todo) {
-	    initialState.todos.push(todo);
-	  });
-	});
+	//todoApi.getTodos().then(todos => {
+	//  todos.data.map(todo => {
+	//    initialState.todos.push(todo)
+	//  });
+	//});
 
 	var store = (0, _Store2.default)(initialState);
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRedux.Provider,
 	  { store: store },
-	  _react2.default.createElement(_Layout2.default, { title: 'React Todo App' })
+	  _react2.default.createElement(_Layout2.default, { title: 'Todo App' })
 	), document.getElementById('todo-app'));
 
 /***/ },
@@ -21167,14 +21167,14 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var finalCreateStore = (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)()))(_redux.createStore);
+	var composeStore = (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)()))(_redux.createStore);
 
 	function configureStore() {
 	  var initialState = arguments.length <= 0 || arguments[0] === undefined ? {
 	    todos: []
 
 	  } : arguments[0];
-	  return finalCreateStore(_reducers2.default, initialState);
+	  return composeStore(_reducers2.default, initialState);
 	}
 
 /***/ },
@@ -23103,6 +23103,7 @@
 	  }, {
 	    key: 'handleDeleteTodo',
 	    value: function handleDeleteTodo(id) {
+
 	      this.props.actions.deleteTodo(id);
 	      this.initState();
 	    }
@@ -23135,7 +23136,7 @@
 	              _react2.default.createElement(
 	                'th',
 	                null,
-	                'Edit'
+	                ' '
 	              ),
 	              _react2.default.createElement(
 	                'th',
@@ -23194,7 +23195,7 @@
 	    props.todos.map(function (todo, idx) {
 	      return _react2.default.createElement(
 	        'tr',
-	        { completed: todo.completed, key: todo.id },
+	        { key: todo.id },
 	        _react2.default.createElement(
 	          'td',
 	          null,
