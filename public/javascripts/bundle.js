@@ -71,6 +71,7 @@
 	// todoApi.getTodos().then(todos => {
 	//   let store = configureStore({todos: todos.data});
 	// })
+
 	var store = (0, _Store2.default)({ todos: [] });
 
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -23082,20 +23083,20 @@
 	  }, {
 	    key: 'handleAddTodo',
 	    value: function handleAddTodo(todo) {
-	      this.props.actions.addTodo(todo);
+	      _todoAPI2.default.addTodo(todo);
 	      this.initState();
 	    }
 	  }, {
 	    key: 'handleDeleteTodo',
 	    value: function handleDeleteTodo(id) {
 
-	      this.props.actions.deleteTodo(id);
+	      _todoAPI2.default.deleteTodo(id);
 	      this.initState();
 	    }
 	  }, {
 	    key: 'handleCompleteTodo',
 	    value: function handleCompleteTodo(todo) {
-	      this.props.actions.completeTodo(todo);
+	      _todoAPI2.default.completeTodo(todo);
 	      this.initState();
 	    }
 	  }, {

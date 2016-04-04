@@ -22,16 +22,16 @@ export default class Todos extends Component {
     });
   }
   handleAddTodo(todo){
-    this.props.actions.addTodo(todo);
+    todoApi.addTodo(todo);
     this.initState()
   }
   handleDeleteTodo(id){
     
-    this.props.actions.deleteTodo(id);
+    todoApi.deleteTodo(id);
     this.initState()
   }
   handleCompleteTodo(todo){
-    this.props.actions.completeTodo(todo);
+    todoApi.completeTodo(todo);
     this.initState()
   }
   render(){
