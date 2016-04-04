@@ -10,9 +10,6 @@ export default class Todos extends Component {
     this.state = {
       todos: []
     };
-    todoApi.getTodos().then(todos => {
-      this.setState({todos: todos.data})
-    });
   }
   initState(){
     todoApi.getTodos().then(todos => {
@@ -20,6 +17,9 @@ export default class Todos extends Component {
         todos: todos.data
       })
     });
+  }
+  componentDidMount(){
+    this.initState()
   }
   handleAddTodo(todo){
     todoApi.addTodo(todo);

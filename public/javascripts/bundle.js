@@ -23063,9 +23063,6 @@
 	    _this.state = {
 	      todos: []
 	    };
-	    _todoAPI2.default.getTodos().then(function (todos) {
-	      _this.setState({ todos: todos.data });
-	    });
 	    return _this;
 	  }
 
@@ -23079,6 +23076,11 @@
 	          todos: todos.data
 	        });
 	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.initState();
 	    }
 	  }, {
 	    key: 'handleAddTodo',
