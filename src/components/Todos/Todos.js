@@ -3,13 +3,16 @@ import todoApi from '../../api/todoAPI'
 import TodoList from './TodoList'
 import TodoForm from './TodoForm'
 
+
 export default class Todos extends Component {
   constructor(props){
     super(props);
     this.state = {
       todos: []
     };
-    console.dir(props.todos);
+    todoApi.getTodos().then(todos => {
+      this.setState({todos: todos.data})
+    });
   }
   initState(){
     todoApi.getTodos().then(todos => {
@@ -17,9 +20,6 @@ export default class Todos extends Component {
         todos: todos.data
       })
     });
-  }
-  componentDidMount(){
-    this.initState()
   }
   handleAddTodo(todo){
     this.props.actions.addTodo(todo);

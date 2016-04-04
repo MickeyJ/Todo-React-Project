@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import { isDoneStyle } from '../../style/styles'
 
+
+
+
+
 const TodoList = props =>{
+  // console.log(props.todos);
   return(
     <tbody>
     {props.todos.map((todo, idx) => (
@@ -10,6 +15,7 @@ const TodoList = props =>{
         <td style={{fontSize: '20px'}}>
           {todo.name}
         </td>
+        {props.todoMarkup}
         <td>
           <button
             className="btn completeBtn"

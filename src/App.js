@@ -5,17 +5,11 @@ import configureStore from './util/Store'
 import Layout from './components/Layout'
 import todoApi from './api/todoAPI'
 
-const initialState = {
-  todos: []
-};
+// todoApi.getTodos().then(todos => {
+//   let store = configureStore({todos: todos.data});
+// })
 
-//todoApi.getTodos().then(todos => {
-//  todos.data.map(todo => {
-//    initialState.todos.push(todo)
-//  });
-//});
-
-let store = configureStore(initialState);
+let store = configureStore({todos: []});
 
 render(
   <Provider store={store}>

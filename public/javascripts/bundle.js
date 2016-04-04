@@ -68,17 +68,10 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var initialState = {
-	  todos: []
-	};
-
-	//todoApi.getTodos().then(todos => {
-	//  todos.data.map(todo => {
-	//    initialState.todos.push(todo)
-	//  });
-	//});
-
-	var store = (0, _Store2.default)(initialState);
+	// todoApi.getTodos().then(todos => {
+	//   let store = configureStore({todos: todos.data});
+	// })
+	var store = (0, _Store2.default)({ todos: [] });
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -22942,36 +22935,31 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.addTodo = addTodo;
-	exports.completeTodo = completeTodo;
-	exports.deleteTodo = deleteTodo;
-
-	var _todoAPI = __webpack_require__(185);
-
-	var _todoAPI2 = _interopRequireDefault(_todoAPI);
+	exports.deleteTodo = exports.completeTodo = exports.addTodo = undefined;
 
 	var _Constants = __webpack_require__(204);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function actionCreator(type) {
+	  for (var _len = arguments.length, argNames = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    argNames[_key - 1] = arguments[_key];
+	  }
 
-	function addTodo(text) {
-	  return {
-	    type: _Constants.ADD_TODO,
-	    text: text
+	  return function () {
+	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	      args[_key2] = arguments[_key2];
+	    }
+
+	    var action = { type: type };
+	    argNames.forEach(function (arg, index) {
+	      action[argNames[index]] = args[index];
+	    });
+	    return action;
 	  };
 	}
-	function completeTodo(todo) {
-	  return {
-	    type: _Constants.COMPLETE_TODO,
-	    todo: todo
-	  };
-	}
-	function deleteTodo(id) {
-	  return {
-	    type: _Constants.DELETE_TODO,
-	    id: id
-	  };
-	}
+
+	var addTodo = exports.addTodo = actionCreator(_Constants.ADD_TODO, 'text');
+	var completeTodo = exports.completeTodo = actionCreator(_Constants.COMPLETE_TODO, 'todo');
+	var deleteTodo = exports.deleteTodo = actionCreator(_Constants.DELETE_TODO, 'id');
 
 /***/ },
 /* 207 */
@@ -23074,7 +23062,9 @@
 	    _this.state = {
 	      todos: []
 	    };
-	    console.dir(props.todos);
+	    _todoAPI2.default.getTodos().then(function (todos) {
+	      _this.setState({ todos: todos.data });
+	    });
 	    return _this;
 	  }
 
@@ -23088,11 +23078,6 @@
 	          todos: todos.data
 	        });
 	      });
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.initState();
 	    }
 	  }, {
 	    key: 'handleAddTodo',
@@ -23189,6 +23174,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var TodoList = function TodoList(props) {
+	  // console.log(props.todos);
 	  return _react2.default.createElement(
 	    'tbody',
 	    null,
@@ -23206,6 +23192,7 @@
 	          { style: { fontSize: '20px' } },
 	          todo.name
 	        ),
+	        props.todoMarkup,
 	        _react2.default.createElement(
 	          'td',
 	          null,
@@ -23276,7 +23263,8 @@
 	    }
 	  }, {
 	    key: 'submitTodo',
-	    value: function submitTodo() {
+	    value: function submitTodo(e) {
+	      e.preventDefault();
 	      if (!this.todo.value) return;
 	      this.props.handleAddTodo(this.todo.value);
 	      this.todo.value = '';
@@ -23290,7 +23278,7 @@
 	        'div',
 	        { style: { marginBottom: 50 } },
 	        _react2.default.createElement(
-	          'div',
+	          'form',
 	          { className: 'form-inline' },
 	          _react2.default.createElement('input', {
 	            className: 'form-control',
@@ -23305,9 +23293,9 @@
 	            'button',
 	            {
 	              className: 'btn btn-info',
-	              type: 'button',
-	              onClick: function onClick() {
-	                return _this2.submitTodo();
+	              type: 'submit',
+	              onClick: function onClick(e) {
+	                return _this2.submitTodo(e);
 	              } },
 	            'Add'
 	          )

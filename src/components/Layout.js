@@ -10,12 +10,12 @@ import Footer from './Footer/Footer'
 const Layout = props =>{
   return(
     <div>
-      <Header title={props.title} />
+      <Header title={props.title}/>
       <Todos
         actions={props.actions}
-        todos={props.todos}
+        todos={props.todos} 
       />
-      <Footer title={props.title} />
+      <Footer title={props.title}/>
     </div>
   )
 };

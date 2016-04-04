@@ -5,7 +5,8 @@ export default class TodoForm extends Component{
   getRef(ref){
     this.todo = ref;
   }
-  submitTodo(){
+  submitTodo(e){
+    e.preventDefault();
     if(!this.todo.value) return;
     this.props.handleAddTodo(this.todo.value);
     this.todo.value = ''
@@ -13,7 +14,7 @@ export default class TodoForm extends Component{
   render(){
     return(
       <div style={{marginBottom: 50}}>
-        <div className="form-inline" >
+        <form className="form-inline" >
           <input
             className="form-control"
             style={{width: 300}}
@@ -23,11 +24,11 @@ export default class TodoForm extends Component{
           />
           <button
             className="btn btn-info"
-            type="button"
-            onClick={() => this.submitTodo()}>
+            type="submit"
+            onClick={(e) => this.submitTodo(e)}>
             Add
           </button>
-        </div>
+        </form>
       </div>
     )
   }
