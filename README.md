@@ -1,4 +1,5 @@
 ##Todo App: React/ES2015 - Postgres/Knex - Express/Webpack
+[Live Demo](https://todo-react-app.herokuapp.com/)
 >
 ######you need to set up Postgres/Knex for Todo App functionality
 
